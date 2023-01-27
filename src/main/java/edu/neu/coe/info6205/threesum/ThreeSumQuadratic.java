@@ -31,13 +31,42 @@ public class ThreeSumQuadratic implements ThreeSum {
 
     /**
      * Get a list of Triples such that the middle index is the given value j.
-     *
+     *n
      * @param j the index of the middle value.
      * @return a Triple such that
      */
     public List<Triple> getTriples(int j) {
         List<Triple> triples = new ArrayList<>();
+
         // FIXME : for each candidate, test if a[i] + a[j] + a[k] = 0.
+        //for loop to add every triplet and return list of all possible triplets
+        if(j==0)
+        {
+            return triples;
+        }
+
+        int i = j - 1;
+        int k = j + 1;
+        int sum = 0;
+
+
+        while(i>=0 && k<a.length){
+
+            sum = a[i] + a[k];
+            if(sum == -a[j])
+            {
+                triples.add(new Triple(a[i], a[j], a[k]));
+                i--;
+            }
+
+            else if(sum < -a[j]) {
+                k++;
+            }
+
+            else
+                i--;
+        }
+
         // END 
         return triples;
     }

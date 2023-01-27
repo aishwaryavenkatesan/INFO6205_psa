@@ -134,6 +134,17 @@ public class ThreeSumTest {
     }
 
     @Test
+    public void testMethod() {
+        int [] ints = {-30,0,10,20,30};
+        ThreeSum target = new ThreeSumQuadraticWithCalipers(ints);
+        System.out.println(Arrays.toString(ints));
+        Triple[] triples = target.getTriples();
+        System.out.println(Arrays.toString(triples));
+        assertEquals(2, triples.length);
+
+    }
+
+    @Test
     public void testGetTriplesC3() {
         Supplier<int[]> intsSupplier = new Source(1000, 1000).intsSupplier(10);
         int[] ints = intsSupplier.get();
