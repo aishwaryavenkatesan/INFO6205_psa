@@ -1,9 +1,8 @@
 package edu.neu.coe.info6205.threesum;
 
-import edu.neu.coe.info6205.util.Benchmark_Timer;
-import edu.neu.coe.info6205.util.TimeLogger;
-import edu.neu.coe.info6205.util.Utilities;
+import edu.neu.coe.info6205.util.*;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
@@ -34,8 +33,54 @@ public class ThreeSumBenchmark {
 
     private void benchmarkThreeSum(final String description, final Consumer<int[]> function, int n, final TimeLogger[] timeLoggers) {
         if (description.equals("ThreeSumCubic") && n > 4000) return;
+
+//        Timer t1 = new Timer();
+//    double timeObj =    t1.repeat(n, this.supplier);
+      //  System.out.println(t1);
+
+     //   Benchmark_Timer timer = new Benchmark_Timer<>(description, function);
+        double testTimeAvg = 0;
+
+        for(int i=0; i<runs; i++)
+        {
+            double time1 = new Benchmark_Timer<>(description, function).runFromSupplier(supplier, runs);
+            Benchmark_Timer timer = new Benchmark_Timer<>(description, function);
+            double timeObject = timer.runFromSupplier(supplier, runs);
+            testTimeAvg+=timeObject;
+        }
+
+        double avgTime = testTimeAvg/runs;
+
+        System.out.println("average time 1 " + avgTime);
+
+
+
+        timeLoggers[0].log(avgTime,n);
+        timeLoggers[1].log(avgTime, n);
+
+
+
+
+        double totalTime = 0;
+        double averageTime = 0;
+
+        for(int i=0; i<runs; i++)
+        {
+            Stopwatch timerObj = new Stopwatch();
+
+            function.accept(this.supplier.get());
+            double timeTakenForLap = timerObj.lap();
+            totalTime = totalTime + timeTakenForLap;
+         //   System.out.println("time for iteration " + i + " " + timeTakenForLap);
+        }
+
+        averageTime = totalTime/runs;
+        System.out.println("average time 2 " + averageTime);
+
+        timeLoggers[0].log(averageTime,n);
+        timeLoggers[1].log(averageTime, n);
         // FIXME
-        // END 
+        // END
     }
 
     private final static TimeLogger[] timeLoggersCubic = {

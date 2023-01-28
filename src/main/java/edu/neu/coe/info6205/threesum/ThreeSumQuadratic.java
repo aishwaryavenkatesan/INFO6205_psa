@@ -17,7 +17,7 @@ public class ThreeSumQuadratic implements ThreeSum {
      * Construct a ThreeSumQuadratic on a.
      * @param a a sorted array.
      */
-    public ThreeSumQuadratic(int[] a) {
+    public  ThreeSumQuadratic(int[] a) {
         this.a = a;
         length = a.length;
     }
