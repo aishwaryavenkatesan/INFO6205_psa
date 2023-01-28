@@ -19,6 +19,7 @@ public class ThreeSumBenchmark {
         benchmarkThreeSum("ThreeSumQuadratic", (xs) -> new ThreeSumQuadratic(xs).getTriples(), n, timeLoggersQuadratic);
         benchmarkThreeSum("ThreeSumQuadrithmic", (xs) -> new ThreeSumQuadrithmic(xs).getTriples(), n, timeLoggersQuadrithmic);
         benchmarkThreeSum("ThreeSumCubic", (xs) -> new ThreeSumCubic(xs).getTriples(), n, timeLoggersCubic);
+        benchmarkThreeSum("ThreeSumQuadraticWithCalipers", (xs) -> new ThreeSumQuadraticWithCalipers(xs).getTriples(), n, timeLoggerQuadraticWithCalipers);
     }
 
     public static void main(String[] args) {
@@ -32,34 +33,7 @@ public class ThreeSumBenchmark {
     }
 
     private void benchmarkThreeSum(final String description, final Consumer<int[]> function, int n, final TimeLogger[] timeLoggers) {
-        if (description.equals("ThreeSumCubic") && n > 4000) return;
-
-//        Timer t1 = new Timer();
-//    double timeObj =    t1.repeat(n, this.supplier);
-      //  System.out.println(t1);
-
-     //   Benchmark_Timer timer = new Benchmark_Timer<>(description, function);
-        double testTimeAvg = 0;
-
-        for(int i=0; i<runs; i++)
-        {
-            double time1 = new Benchmark_Timer<>(description, function).runFromSupplier(supplier, runs);
-            Benchmark_Timer timer = new Benchmark_Timer<>(description, function);
-            double timeObject = timer.runFromSupplier(supplier, runs);
-            testTimeAvg+=timeObject;
-        }
-
-        double avgTime = testTimeAvg/runs;
-
-        System.out.println("average time 1 " + avgTime);
-
-
-
-        timeLoggers[0].log(avgTime,n);
-        timeLoggers[1].log(avgTime, n);
-
-
-
+    //    if (description.equals("ThreeSumCubic") && n > 4000) return;
 
         double totalTime = 0;
         double averageTime = 0;
@@ -71,11 +45,12 @@ public class ThreeSumBenchmark {
             function.accept(this.supplier.get());
             double timeTakenForLap = timerObj.lap();
             totalTime = totalTime + timeTakenForLap;
-         //   System.out.println("time for iteration " + i + " " + timeTakenForLap);
+
         }
 
         averageTime = totalTime/runs;
-        System.out.println("average time 2 " + averageTime);
+        System.out.println(description);
+        System.out.println(" average time " + averageTime);
 
         timeLoggers[0].log(averageTime,n);
         timeLoggers[1].log(averageTime, n);
@@ -94,6 +69,12 @@ public class ThreeSumBenchmark {
     private final static TimeLogger[] timeLoggersQuadratic = {
             new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
             new TimeLogger("Normalized time per run (n^2): ", (time, n) -> time / n / n * 1e6)
+    };
+
+    private final static TimeLogger[] timeLoggerQuadraticWithCalipers = {
+            new TimeLogger("Raw time per run (mSec): ",(time, n) -> time),
+            new TimeLogger("Normalized time per run (n^2): ", (time, n) -> time / n / n * 1e6)
+
     };
 
     private final int runs;

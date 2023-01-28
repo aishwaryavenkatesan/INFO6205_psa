@@ -53,21 +53,16 @@ public class ThreeSumQuadraticWithCalipers implements ThreeSum {
         int j = i + 1;
         int k = a.length - 1;
 
-        while(j < k)
-        {
+        while (j < k) {
             int sum = a[j] + a[k];
             Triple obj = new Triple(a[i], a[j], a[k]);
-            
-            if(function.apply(obj)==0) {
+
+            if (function.apply(obj) == 0) {
                 triples.add(new Triple(a[i], a[j], a[k]));
                 j++;
-            }
-
-            else if(sum < -a[i]) {
+            } else if (sum < -a[i]) {
                 j++;
-            }
-
-            else k--;
+            } else k--;
         }
         // END 
         return triples;

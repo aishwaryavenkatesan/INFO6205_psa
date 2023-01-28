@@ -40,8 +40,7 @@ public class ThreeSumQuadratic implements ThreeSum {
 
         // FIXME : for each candidate, test if a[i] + a[j] + a[k] = 0.
         //for loop to add every triplet and return list of all possible triplets
-        if(j==0)
-        {
+        if (j == 0) {
             return triples;
         }
 
@@ -49,24 +48,17 @@ public class ThreeSumQuadratic implements ThreeSum {
         int k = j + 1;
         int sum = 0;
 
-
-        while(i>=0 && k<a.length){
+        while (i >= 0 && k < a.length) {
 
             sum = a[i] + a[k];
-            if(sum == -a[j])
-            {
+            if (sum == -a[j]) {
                 triples.add(new Triple(a[i], a[j], a[k]));
                 i--;
-            }
-
-            else if(sum < -a[j]) {
+            } else if (sum < -a[j]) {
                 k++;
-            }
-
-            else
+            } else
                 i--;
         }
-
         // END 
         return triples;
     }
