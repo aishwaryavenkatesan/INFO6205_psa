@@ -1,5 +1,10 @@
 package edu.neu.coe.info6205.util;
 
+import edu.neu.coe.info6205.sort.elementary.InsertionSort;
+
+import java.time.Clock;
+import java.time.Duration;
+import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -61,6 +66,15 @@ public class Timer {
     public <T, U> double repeat(int n, Supplier<T> supplier, Function<T, U> function, UnaryOperator<T> preFunction, Consumer<U> postFunction) {
         logger.trace("repeat: with " + n + " runs");
         // FIXME: note that the timer is running when this method is called and should still be running when it returns. by replacing the following code
+        for(int i =0; i< n; i++)
+        {
+            InsertionSort obj = new InsertionSort();
+            supplier.get();
+            int a[] = {1,2,3};
+
+            Arrays.sort(a);
+        }
+        postFunction.accept(function.apply(supplier.get()));
          return 0;
         // END 
     }
@@ -187,8 +201,11 @@ public class Timer {
      * @return the number of ticks for the system clock. Currently defined as nano time.
      */
     private static long getClock() {
+
+
         // FIXME by replacing the following code
-         return 0;
+        long nanoTime = System.nanoTime();
+        return nanoTime;
         // END 
     }
 
@@ -201,7 +218,9 @@ public class Timer {
      */
     private static double toMillisecs(long ticks) {
         // FIXME by replacing the following code
-         return 0;
+
+        long milliSecond = ticks/1000000L;
+        return milliSecond;
         // END 
     }
 
