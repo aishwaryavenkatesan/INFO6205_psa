@@ -66,16 +66,33 @@ public class Timer {
     public <T, U> double repeat(int n, Supplier<T> supplier, Function<T, U> function, UnaryOperator<T> preFunction, Consumer<U> postFunction) {
         logger.trace("repeat: with " + n + " runs");
         // FIXME: note that the timer is running when this method is called and should still be running when it returns. by replacing the following code
-        for(int i =0; i< n; i++)
-        {
-            InsertionSort obj = new InsertionSort();
-            supplier.get();
-            int a[] = {1,2,3};
 
-            Arrays.sort(a);
+        double meanLap  = 0L;
+        pause();
+        T initialArray = supplier.get();
+        for(int i =0; i< n; i++) {
+            T arrayWithPreFunction = null;
+            if (preFunction != null) {
+                preFunction.apply(initialArray);
+            }
+            resume();
+            U sortedArray = function.apply(initialArray);
+            pauseAndLap();
+            if (postFunction != null) {
+                postFunction.accept(sortedArray);
+            }
+
+
+//            InsertionSort obj = new InsertionSort();
+//            supplier.get();
+//            int a[] = {1,2,3};
+//
+//            Arrays.sort(a);
         }
-        postFunction.accept(function.apply(supplier.get()));
-         return 0;
+//        postFunction.accept(function.apply(supplier.get()));
+        meanLap = meanLapTime();
+        resume();
+        return meanLap;
         // END 
     }
 
