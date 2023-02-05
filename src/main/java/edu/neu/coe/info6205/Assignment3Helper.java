@@ -1,135 +1,129 @@
 package edu.neu.coe.info6205;
 
 import edu.neu.coe.info6205.sort.elementary.InsertionSort;
-import edu.neu.coe.info6205.threesum.ThreeSumQuadratic;
 import edu.neu.coe.info6205.util.Benchmark_Timer;
-import edu.neu.coe.info6205.util.SorterBenchmark;
-import edu.neu.coe.info6205.util.TimeLogger;
-import edu.neu.coe.info6205.sort.SortWithHelper;
 
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.UnaryOperator;
 
 public class Assignment3Helper {
     private final int runs;
     private final int n;
     private final int m;
 
-    private Consumer<int[]> consumerArr;
-    private Consumer<InsertionSort> insertionSortConsumer;
-    private Function functionObj;
-
-    private InsertionSort insertSortArray;
-
     private InsertionSort<Integer> insertionSortObj = new InsertionSort<>();
 
 
-    private int[] arrayToSort;
-    private ArrayList<Integer> arrayList;
+    private Integer[] arrayToSort;
 
     public Assignment3Helper(int runs, int n, int m) {
         this.runs = runs;
         this.n = n;
         this.m = m;
-        this.arrayToSort = new int[n];
+        this.arrayToSort = new Integer[n];
     }
 
     public void runBenchmarks() {
         System.out.println("Benchmark value for n " + n);
-        generateArrayAndSort("random", n,m);
-        generateArrayAndSort("ordered", n,m);
-        generateArrayAndSort("partiallyOrdered",n,m);
-        generateArrayAndSort("reverseOrdered",n,m);
+        generateArrayAndSort("random", n, m);
+        generateArrayAndSort("ordered", n, m);
+        generateArrayAndSort("partiallyOrdered", n, m);
+        generateArrayAndSort("reverseOrdered", n, m);
     }
-
-    private final static TimeLogger[] timeForSort = {
-            new TimeLogger("Raw time per run (mSec): ", (time, n) -> time),
-    };
-
-
     public void generateArrayAndSort(final String description, int n, int m) {
-        int lowerBound = -m;
-        int endVal = m-1;
-        int mid = m/2;
-        int bound = (endVal - lowerBound) + 1;
 
-        System.out.println("inside generateArray func");
+        System.out.println("inside generateArrayAndSort function");
         System.out.println(description);
-
-
-
-
-
 
         switch (description) {
             case "random" :
-                for(int i=0; i<n; i++) {
-                    Random rand = new Random();
-                    int num = rand.nextInt(((endVal - lowerBound) + 1)) + lowerBound;
-                    System.out.println(num);
-                    arrayToSort[i] = num;
-                }
+                randomOrder(n,m);
                 break;
 
             case "ordered" :
-                for(int i=0; i <n; i++) {
-                    Random rand = new Random();
-                    int num = rand.nextInt(((endVal - lowerBound) + 1)) + lowerBound;
-                    arrayToSort[i] = num;
-                    Arrays.sort(arrayToSort);
-                }
+                ordered(n,m);
                 break;
 
             case "partiallyOrdered" :
-                for(int i=0; i <n; i++) {
-                    Random rand = new Random();
-                    int num = rand.nextInt(((endVal - lowerBound) + 1)) + lowerBound;
-                    arrayToSort[i] = num;
-                    Arrays.sort(arrayToSort, 0, mid);
-                }
+                partiallyOrdered(n,m);
                 break;
 
             case "reverseOrdered" :
-                for(int i=0; i<n; i++) {
-                    Random rand = new Random();
-                    int num = rand.nextInt(((endVal - lowerBound) + 1)) + lowerBound;
-                    arrayToSort[i] = num;
-                    Arrays.sort(arrayToSort, mid+1, n-1);
-                }
+                reverseOrdered(n,m);
                 break;
         }
 
-        consumerArr.accept(arrayToSort);
+        InsertionSort<Integer> insertionSortObject = new InsertionSort<>();
+        Benchmark_Timer benchmark_timerObj = new Benchmark_Timer<>(description, null, arrayToSort -> insertionSortObject.sort((Integer[]) arrayToSort, 0, n),null);
+        double timeForSorting = benchmark_timerObj.run(arrayToSort,n);
 
-        Benchmark_Timer obj1 = new Benchmark_Timer<>(("Insertion sort for " + description), consumerArr);
-        double timeForSorting = obj1.run(arrayToSort, n);
+        System.out.println( " " + " time taken for insertion sort for " + " n value "  + n +  " " + description + " " + "is " + timeForSorting);
+    }
 
-        System.out.println("Time taken for insertion sort for arrayToSort type " + description + " " + timeForSorting);
+    public void randomOrder(int n, int m) {
+        int lowerBound = -m;
+        int upperBound = m - 1;
+        int mid = m / 2;
+        int bound = (upperBound - lowerBound) + 1;
 
+        for (int i = 0; i < n; i++) {
+            Random rand = new Random();
+            int num = rand.nextInt(bound) + lowerBound;
+            arrayToSort[i] = num;
+        }
+    }
 
+    public void ordered( int n, int m) {
+        int lowerBound = -m;
+        int upperBound = m - 1;
+        int mid = m / 2;
+        int bound = (upperBound - lowerBound) + 1;
+
+        for(int i=0; i <n; i++) {
+            Random rand = new Random();
+            int num = rand.nextInt(bound)+ lowerBound;
+            arrayToSort[i] = num;
+            Arrays.sort(arrayToSort);
+        }
+    }
+
+    public void partiallyOrdered (int n, int m) {
+        int lowerBound = -m;
+        int upperBound = m - 1;
+        int mid = m / 2;
+        int bound = (upperBound - lowerBound) + 1;
+
+        for(int i=0; i <n; i++) {
+            Random rand = new Random();
+            int num = rand.nextInt(bound) + lowerBound;
+            arrayToSort[i] = num;
+            Arrays.sort(arrayToSort, 0, mid);
+        }
+    }
+
+    public void reverseOrdered (int n, int m) {
+        int lowerBound = -m;
+        int upperBound = m - 1;
+        int mid = m / 2;
+        int bound = (upperBound - lowerBound) + 1;
+
+        for(int i=0; i<n; i++) {
+            Random rand = new Random();
+            int num = rand.nextInt(bound) + lowerBound;
+            arrayToSort[i] = num;
+            Arrays.sort(arrayToSort, mid+1, n-1);
+        }
 
     }
+
 
 
     public static void main (String[] args) {
 
-        new Assignment3Helper(100, 250, 250).runBenchmarks();
-        new Assignment3Helper(50, 500,500).runBenchmarks();
-        new Assignment3Helper(20, 1000,1000).runBenchmarks();
-        new Assignment3Helper(10, 2000, 2000).runBenchmarks();
-        new Assignment3Helper(5,4000,4000).runBenchmarks();
-
-
-
-
-
-
+        new Assignment3Helper(100, 500, 500).runBenchmarks();
+        new Assignment3Helper(100, 1000,1000).runBenchmarks();
+        new Assignment3Helper(100, 2000,2000).runBenchmarks();
+        new Assignment3Helper(50, 4000, 4000).runBenchmarks();
+        new Assignment3Helper(50,8000,8000).runBenchmarks();
     }
 
-//    public ArrayList<Integer> generateArray(int runs, int n, int m) {
-//
-//
-//    }
 }

@@ -81,13 +81,6 @@ public class Timer {
             if (postFunction != null) {
                 postFunction.accept(sortedArray);
             }
-
-
-//            InsertionSort obj = new InsertionSort();
-//            supplier.get();
-//            int a[] = {1,2,3};
-//
-//            Arrays.sort(a);
         }
 //        postFunction.accept(function.apply(supplier.get()));
         meanLap = meanLapTime();
