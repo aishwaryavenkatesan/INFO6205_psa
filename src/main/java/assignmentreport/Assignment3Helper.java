@@ -1,4 +1,4 @@
-package edu.neu.coe.info6205;
+package assignmentreport;
 
 import edu.neu.coe.info6205.sort.elementary.InsertionSort;
 import edu.neu.coe.info6205.util.Benchmark_Timer;
@@ -31,8 +31,8 @@ public class Assignment3Helper {
     }
     public void generateArrayAndSort(final String description, int n, int m) {
 
-        System.out.println("inside generateArrayAndSort function");
-        System.out.println(description);
+//        System.out.println("inside generateArrayAndSort function");
+//        System.out.println(description);
 
         switch (description) {
             case "random" :
@@ -124,6 +124,7 @@ public class Assignment3Helper {
         new Assignment3Helper(100, 2000,2000).runBenchmarks();
         new Assignment3Helper(50, 4000, 4000).runBenchmarks();
         new Assignment3Helper(50,8000,8000).runBenchmarks();
+
     }
 
 }
