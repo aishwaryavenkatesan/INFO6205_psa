@@ -30,26 +30,17 @@ public class ufClient {
 
     public static void main(String args[]) {
         int m = 0;
-//        if (args.length == 0) {
-//            throw new RuntimeException("no value for n");
-//        }
-
-//        n = Integer.parseInt(args[0]);
-        m = count(200);
-        System.out.println("Number of connections for N value " + 200 + " is" + " " + m);
-        m = count(400);
-        System.out.println("Number of connections for N value " + 400 + " is" + " " + m);
-        m = count(800);
-        System.out.println("Number of connections for N value " + 800 + " is" + " " + m);
-        m = count(1600);
-        System.out.println("Number of connections for N value " + 1600 + " is" + " " + m);
-        m = count(3200);
-        System.out.println("Number of connections for N value " + 3200 + " is" + " " + m);
-        m = count(6400);
-        System.out.println("Number of connections for N value " + 6400 + " is" + " " + m);
-        m = count(12800);
-        System.out.println("Number of connections for N value " + 12800 + " is" + " " + m);
-        m = count(25600);
-        System.out.println("Number of connections for N value " + 25600 + " is" + " " + m);
+        m = count(500);
+        System.out.println("Number of connections for N value " + 500 + " is" + " " + m);
+        m = count(1000);
+        System.out.println("Number of connections for N value " + 1000 + " is" + " " + m);
+        m = count(2000);
+        System.out.println("Number of connections for N value " + 2000 + " is" + " " + m);
+        m = count(4000);
+        System.out.println("Number of connections for N value " + 4000 + " is" + " " + m);
+        m = count(8000);
+        System.out.println("Number of connections for N value " + 8000 + " is" + " " + m);
+        m = count(16000);
+        System.out.println("Number of connections for N value " + 16000 + " is" + " " + m);
     }
 }
