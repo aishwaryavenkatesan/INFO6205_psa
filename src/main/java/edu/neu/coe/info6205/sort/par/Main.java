@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 
 /**
@@ -18,7 +20,10 @@ public class Main {
 
     public static void main(String[] args) {
         processArgs(args);
-        System.out.println("Degree of parallelism: " + ForkJoinPool.getCommonPoolParallelism());
+        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism","16");
+        System.out.println("getParallelism=" +ForkJoinPool.commonPool().getParallelism());
+//        System.out.println("Degree of parallelism: " + ForkJoinPool.getCommonPoolParallelism());
+
         Random random = new Random();
         int[] array = new int[2000000];
         ArrayList<Long> timeList = new ArrayList<>();
@@ -36,7 +41,8 @@ public class Main {
             timeList.add(time);
 
 
-            System.out.println("cutoff：" + (ParSort.cutoff) + "\t\t10times Time:" + time + "ms");
+           // System.out.println("printing timelist " + timeList);
+            System.out.println("cutoff：" + (ParSort.cutoff) + "\t\t10 times Time:" + time + "ms");
 
         }
         try {
@@ -46,6 +52,7 @@ public class Main {
             int j = 0;
             for (long i : timeList) {
                 String content = (double) 10000 * (j + 1) / 2000000 + "," + (double) i / 10 + "\n";
+                System.out.println("content " + content);
                 j++;
                 bw.write(content);
                 bw.flush();
@@ -76,6 +83,11 @@ public class Main {
             // TODO sort this out
             if (x.equalsIgnoreCase("P")) //noinspection ResultOfMethodCallIgnored
                 ForkJoinPool.getCommonPoolParallelism();
+
+//            ForkJoinPool obj = new ForkJoinPool(5);
+//            obj.getRunningThreadCount();
+//            ForkJoinPool.commonPool();
+//
     }
 
     private static void setConfig(String x, int i) {
