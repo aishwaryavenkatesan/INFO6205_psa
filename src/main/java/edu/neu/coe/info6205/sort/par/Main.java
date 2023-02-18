@@ -20,15 +20,19 @@ public class Main {
 
     public static void main(String[] args) {
         processArgs(args);
-        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism","16");
+        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism","64");
         System.out.println("getParallelism=" +ForkJoinPool.commonPool().getParallelism());
 //        System.out.println("Degree of parallelism: " + ForkJoinPool.getCommonPoolParallelism());
 
         Random random = new Random();
         int[] array = new int[2000000];
         ArrayList<Long> timeList = new ArrayList<>();
-        for (int j = 50; j < 100; j++) {
-            ParSort.cutoff = 10000 * (j + 1);
+      //  int [] cutoffValues = {2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000};
+        int [] cutoffValues = {5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000};
+        System.out.println("array size " + array.length);
+        for (int j = 0; j < cutoffValues.length; j++) {
+            ParSort.cutoff = cutoffValues[j];
+          //  ParSort.cutoff = 10000 * (j + 1);
             // for (int i = 0; i < array.length; i++) array[i] = random.nextInt(10000000);
             long time;
             long startTime = System.currentTimeMillis();
@@ -45,6 +49,8 @@ public class Main {
             System.out.println("cutoff：" + (ParSort.cutoff) + "\t\t10 times Time:" + time + "ms");
 
         }
+        for(int i =0; i < timeList.size(); i++)
+        System.out.println(timeList.get(i)+ "ms");
         try {
             FileOutputStream fis = new FileOutputStream("./src/result.csv");
             OutputStreamWriter isr = new OutputStreamWriter(fis);
@@ -52,7 +58,6 @@ public class Main {
             int j = 0;
             for (long i : timeList) {
                 String content = (double) 10000 * (j + 1) / 2000000 + "," + (double) i / 10 + "\n";
-                System.out.println("content " + content);
                 j++;
                 bw.write(content);
                 bw.flush();
@@ -83,11 +88,6 @@ public class Main {
             // TODO sort this out
             if (x.equalsIgnoreCase("P")) //noinspection ResultOfMethodCallIgnored
                 ForkJoinPool.getCommonPoolParallelism();
-
-//            ForkJoinPool obj = new ForkJoinPool(5);
-//            obj.getRunningThreadCount();
-//            ForkJoinPool.commonPool();
-//
     }
 
     private static void setConfig(String x, int i) {
