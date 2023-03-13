@@ -35,15 +35,16 @@ public class SortBenchmark {
 
     public static void main(String[] args) throws IOException {
         Config config = Config.load(SortBenchmark.class);
-        logger.info("SortBenchmark.main: " + config.get("SortBenchmark", "version") + " with word counts: " + Arrays.toString(args));
+        logger.info("SortBenchmark.main: " + config.get("sortbenchmark", "version") + " with word counts: " + Arrays.toString(args));
         if (args.length == 0) logger.warn("No word counts specified on the command line");
         SortBenchmark benchmark = new SortBenchmark(config);
-        benchmark.sortIntegersByShellSort(config.getInt("shellsort", "n", 100000));
-        benchmark.sortStrings(Arrays.stream(args).map(Integer::parseInt));
-        benchmark.sortLocalDateTimes(config.getInt("benchmarkdatesorters", "n", 100000), config);
+//        benchmark.sortIntegersByShellSort(config.getInt("shellsort", "n", 100000));
+//        benchmark.sortStrings(Arrays.stream(args).map(Integer::parseInt));
+//        benchmark.sortLocalDateTimes(config.getInt("benchmarkdatesorters", "n", 100000), config);
         int inputSize = config.getInt("benchmarkstringsorters", "words", 10000);
-        int runs = config.getInt("benchmarkstringsorters", "n", 1);
+        int runs = config.getInt("benchmarkstringsorters", "runs", 1);
         benchmark.benchmarkStringSortersInstrumented(new String[inputSize], inputSize, runs);
+      //  benchmark.benchmarkStringSorters(new String[inputSize], inputSize, runs);
     }
 
     public void sortLocalDateTimes(final int n, Config config) throws IOException {
@@ -79,6 +80,16 @@ public class SortBenchmark {
     void benchmarkStringSorters(String[] words, int nWords, int nRuns) {
         logger.info("Testing pure sorts with " + formatWhole(nRuns) + " runs of sorting " + formatWhole(nWords) + " words");
         Random random = new Random();
+
+        int n = nWords;
+        int lo = -n;
+        int hi = n-1;
+        int bound = (hi - lo) + 1;
+
+        for(int i =0; i < n; i++) {
+            int arrNum = random.nextInt(bound) + lo;
+            words[i] = String.valueOf(arrNum);
+        }
 
         if (isConfigBenchmarkStringSorter("puresystemsort")) {
             Benchmark<String[]> benchmark = new Benchmark_Timer<>("SystemSort", null, Arrays::sort, null);
@@ -141,8 +152,7 @@ public class SortBenchmark {
         int bound = (hi - lo) + 1;
 
         for(int i =0; i < n; i++) {
-            Random randInt = new Random();
-            int arrNum = randInt.nextInt(bound) + lo;
+            int arrNum = random.nextInt(bound) + lo;
             words[i] = String.valueOf(arrNum);
         }
 
@@ -378,7 +388,8 @@ public class SortBenchmark {
 
     private void runMergeSortBenchmark(String[] words, int nWords, int nRuns, Boolean insurance, Boolean noCopy) {
         Config x = config.copy(MergeSort.MERGESORT, MergeSort.INSURANCE, insurance.toString()).copy(MergeSort.MERGESORT, MergeSort.NOCOPY, noCopy.toString());
-        runStringSortBenchmark(words, nWords, nRuns, new MergeSort<>(nWords, x), timeLoggersLinearithmic);
+     //   runStringSortBenchmark(words, nWords, nRuns, new MergeSort<>(nWords, x), timeLoggersLinearithmic);
+        runStringSortBenchmark(words, nWords, nRuns, new MergeSortBasic<>(nWords, x), timeLoggersLinearithmic);
     }
 
     private void doLeipzigBenchmark(String resource, int nWords, int nRuns) throws FileNotFoundException {

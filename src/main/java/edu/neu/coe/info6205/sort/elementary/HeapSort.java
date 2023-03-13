@@ -1,6 +1,7 @@
 package edu.neu.coe.info6205.sort.elementary;
 
 import edu.neu.coe.info6205.sort.Helper;
+import edu.neu.coe.info6205.sort.InstrumentedHelper;
 import edu.neu.coe.info6205.sort.SortWithHelper;
 
 public class HeapSort<X extends Comparable<X>> extends SortWithHelper<X> {

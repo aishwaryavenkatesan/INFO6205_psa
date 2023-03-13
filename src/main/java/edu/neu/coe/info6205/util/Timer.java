@@ -69,8 +69,9 @@ public class Timer {
 
         double meanLap  = 0L;
         pause();
-        T initialArray = supplier.get();
+
         for(int i =0; i< n; i++) {
+            T initialArray = supplier.get();
             T arrayWithPreFunction = null;
             if (preFunction != null) {
                 preFunction.apply(initialArray);

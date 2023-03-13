@@ -447,6 +447,7 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
     @Override
     public void incrementCopies(int n) {
         if (countCopies) copies += n;
+        System.out.println("copies " + copies);
     }
 
     /**
@@ -457,6 +458,7 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
     @Override
     public void incrementHits(int n) {
         if (countHits) hits += n;
+        System.out.println("num of hits " + hits);
     }
 
     /**
@@ -467,7 +469,7 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
     @Override
     public void incrementFixes(int n) {
         if (countFixes) fixes += n;
-//        System.out.println("incrementFixes: "+n+"; fixes: " + fixes);
+        System.out.println("incrementFixes: "+n+"; fixes: " + fixes);
     }
 
     @Override
@@ -484,11 +486,13 @@ public class InstrumentedHelper<X extends Comparable<X>> extends BaseHelper<X> {
     private void incrementCompares() {
         if (countCompares)
             compares++;
+        System.out.println("compares " + compares);
     }
 
     private void incrementSwaps(int n) {
         if (countSwaps)
             swaps += n;
+        System.out.println("swaps " + swaps);
     }
 
     // NOTE: the following private methods are only for testing (using reflection).
